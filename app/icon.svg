@@ -1,0 +1,19 @@
+<svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Основной круг (пицца) -->
+  <circle cx="100" cy="100" r="80" stroke="black" stroke-width="4" fill="gold" />
+
+  <!-- Кусочки пиццы -->
+  <path d="M100,20 A80,80 0 0,1 170,70 L100,100 Z" fill="tomato" stroke="black" stroke-width="2"/>
+  <path d="M100,20 A80,80 0 0,1 30,70 L100,100 Z" fill="tomato" stroke="black" stroke-width="2"/>
+
+  <!-- Линии движения (символизирующие доставку) -->
+  <line x1="40" y1="40" x2="20" y2="20" stroke="green" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="40" y1="60" x2="20" y2="40" stroke="green" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <!-- Маркер стрелки для линий движения -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="green" />
+    </marker>
+  </defs>
+</svg>

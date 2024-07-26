@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
-import { Nunito } from 'next/font/google'
 import './globals.css'
+
+import { Nunito } from 'next/font/google'
+
 import { Header } from '@/components/shared/header'
+
 
 const inter = Nunito({
   subsets: ['cyrillic'],

@@ -1,13 +1,24 @@
-import { cn } from '../../lib/utils'
+'use client'
+
+import { cn } from '@/lib/utils'
+import { useCategoryStore } from '@/store/categoryStore'
+
 
 interface Props {
   className?: string
 }
 
-const categories = ['All', 'Pizza', 'Burgers', 'Sides', 'Desserts', 'Drinks']
-const activeIndex = 0
+const categories = [
+  { title: 'Pizza', categoryId: '1' },
+  { title: 'Burgers', categoryId: '2' },
+  { title: 'Sides', categoryId: '3' },
+  { title: 'Desserts', categoryId: '4' },
+  { title: 'Drinks', categoryId: '5' },
+]
 
 export const Categories = ({ className }: Props) => {
+  const activeCategoryId = useCategoryStore(state => state.activeId)
+
   return (
     <div
       className={cn(
@@ -17,15 +28,15 @@ export const Categories = ({ className }: Props) => {
     >
       {categories.map((category, index) => (
         <a
-          href='#'
+          href={`/#${category.categoryId}`}
           key={index}
           className={cn(
             'flex items-center font-bold h-11 rounded-2xl px-5',
-            activeIndex === index &&
+            activeCategoryId === category.categoryId &&
               'bg-white shadow-md shadow-gray-200 text-primary'
           )}
         >
-          <button>{category}</button>
+          <button>{category.title}</button>
         </a>
       ))}
     </div>

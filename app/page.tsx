@@ -1,5 +1,5 @@
-import { Container, Filters, Title, TopBar } from '@/components/shared'
-import { ProductListGroup } from '../components/shared/product-list-group'
+import { Container, Filters, ProductListGroup, Title, TopBar } from '@/components/shared'
+
 
 const pizzas = [
   {
@@ -83,15 +83,14 @@ export default function Home() {
       <TopBar />
       <Container className='mt-10 pb-14'>
         <div className='flex gap-[60px]'>
-          {/* Filters */}
           <div className='w-[250px]'>
             <Filters />
           </div>
 
-          {/* List of items */}
           <div className='flex-1'>
             <div className='flex flex-col gap-16'>
-              <ProductListGroup title='Pizzas' categoryId='1' items={pizzas} />
+              <ProductListGroup title='Pizza' categoryId='1' items={pizzas} />
+              <ProductListGroup title='Burgers' categoryId='2' items={pizzas} />
             </div>
           </div>
         </div>
