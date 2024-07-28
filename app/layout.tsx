@@ -5,6 +5,8 @@ import { Nunito } from 'next/font/google'
 
 import { Header } from '@/components/shared/header'
 
+import prisma from '../prisma/prisma-client'
+
 
 const inter = Nunito({
   subsets: ['cyrillic'],
