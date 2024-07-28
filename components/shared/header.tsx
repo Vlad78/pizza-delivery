@@ -1,8 +1,10 @@
-import Image from 'next/image'
-import { cn } from '@/lib/utils'
-import { Button } from '../ui/'
-import { Container } from './container'
 import { ArrowRight, ShoppingCart, User } from 'lucide-react'
+import Image from 'next/image'
+
+import { Container, SearchInput } from '@/components/shared'
+import { Button } from '@/components/ui'
+import { cn } from '@/lib/utils'
+
 
 interface Props {
   className?: string
@@ -11,7 +13,7 @@ interface Props {
 export const Header = ({ className }: Props) => {
   return (
     <header className={cn('border border-b', className)}>
-      <Container className='flex items-center justify-between py-4'>
+      <Container className='flex items-center justify-between py-4 gap-16'>
         {/* Left side */}
         <div className='flex items-center gap-4'>
           <Image src={'/logo.svg'} alt='pizza logo' width={85} height={85} />
@@ -23,6 +25,12 @@ export const Header = ({ className }: Props) => {
             </p>
           </div>
         </div>
+        {/* Search */}
+
+        <div className='flex-1 min-w-[250px]'>
+          <SearchInput />
+        </div>
+
         {/* Right side */}
         <div className='flex items-center gap-3'>
           <Button variant='outline' className='flex items-center gap-1'>

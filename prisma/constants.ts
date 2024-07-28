@@ -14,7 +14,7 @@ const createVariant = (
     type,
     size,
     price: randomDecimalNumber(price, price * 1.2),
-    imageUrl: `/public/assets/pizzas/${productName}${size && `-${size}`}${
+    imageUrl: `/assets/pizzas/${productName}${size && `-${size}`}${
       type && `-${type}`
     }.png`,
   }
@@ -260,6 +260,7 @@ export const products = [
 export const pizzas = {
   pizzaMargherita: {
     name: 'Margherita',
+    imageUrl: '/assets/pizzas/Margherita-m-thin.png',
     categoryId: 1,
     ingredients: {
       connect: ingredients.filter(ingredient =>
@@ -282,6 +283,7 @@ export const pizzas = {
   },
   pizzaHawaiian: {
     name: 'Hawaiian',
+    imageUrl: '/assets/pizzas/Hawaiian-m-thin.png',
     categoryId: 1,
     ingredients: {
       connect: ingredients.filter(ingredient =>
@@ -306,6 +308,7 @@ export const pizzas = {
   },
   pizzaMushrooms: {
     name: 'Mushrooms',
+    imageUrl: '/assets/pizzas/Mushrooms-m-thin.png',
     categoryId: 1,
     ingredients: {
       connect: ingredients.filter(ingredient =>
@@ -338,6 +341,7 @@ export const pizzas = {
   },
   pizzaPeperoni: {
     name: 'Peperoni',
+    imageUrl: '/assets/pizzas/Peperoni-m-thin.png',
     categoryId: 1,
     ingredients: {
       connect: ingredients.filter(ingredient =>
