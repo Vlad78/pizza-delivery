@@ -1,46 +1,77 @@
-import { cn } from '@/lib/utils'
-import {
-  Title,
-  FilterCheckbox,
-  RangeSlider,
-  CheckboxFiltersGroup,
-} from '@/components/shared/'
+'use client'
+
+import { CheckboxFiltersGroup, RangeSlider, Title } from '@/components/shared/'
 import { Input } from '@/components/ui'
+import { useFilters, useIngredients, useQuery } from '@/hooks'
+import { cn } from '@/lib/utils'
 
-const defaultItems = [
-  { text: 'Meat', value: 'meat' },
-  { text: 'Vegetables', value: 'vegetables' },
-  { text: 'Fruits', value: 'fruits' },
-  { text: 'Cheese', value: 'cheese' },
-  { text: 'Sauce', value: 'sauce' },
-  { text: 'Pepper', value: 'pepper' },
-  { text: 'Salad', value: 'salad' },
-  { text: 'Pineapple', value: 'pineapple' },
-  { text: 'Mushrooms', value: 'mushrooms' },
-  { text: 'Olives', value: 'olives' },
-  { text: 'Tomatoes', value: 'tomatoes' },
-  { text: 'Jalapenos', value: 'jalapenos' },
-  { text: 'Paprika', value: 'paprika' },
-  { text: 'Onions', value: 'onions' },
-  { text: 'Cucumbers', value: 'cucumbers' },
-  { text: 'Mayonnaise', value: 'mayonnaise' },
-  { text: 'Ketchup', value: 'ketchup' },
-  { text: 'Mustard', value: 'mustard' },
-]
 
-interface Props {
+type Props = {
   className?: string
 }
 
 export const Filters = ({ className }: Props) => {
+  const minMaxRange = {
+    min: 0,
+    max: 200,
+  }
+
+  const {
+    selectedSizes,
+    toggleSizes,
+    selectedPizzaTypes,
+    togglePizzaTypes,
+    selectedIngredients,
+    toggleIngredientId,
+    priceRange,
+    setPriceRange,
+  } = useFilters()
+
+  const { filterIngredients, loading } = useIngredients()
+
+  useQuery({
+    priceMin: priceRange.min,
+    priceMax: priceRange.max,
+    sizes: Array.from(selectedSizes),
+    pizzaTypes: Array.from(selectedPizzaTypes),
+    ingredients: Array.from(selectedIngredients),
+  })
+
+  const handleInputPriceRangeChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: 'min' | 'max'
+  ) => {
+    const value = +e.target.value
+    if (value < minMaxRange.min || value > minMaxRange.max) return
+    setPriceRange(p => ({ ...p, [type]: value }))
+  }
+
   return (
     <div className={cn('', className)}>
       <Title text='Filters' size='s' className='font-bold' />
 
-      <div className='mt-7 flex flex-col gap-4'>
-        <FilterCheckbox text='New' value='1' />
-        <FilterCheckbox text='Promo' value='2' />
-      </div>
+      <CheckboxFiltersGroup
+        title='Sizes'
+        items={[
+          { name: 'Small', id: 1 },
+          { name: 'Medium', id: 2 },
+          { name: 'Large', id: 3 },
+        ]}
+        onCheckboxClick={toggleSizes}
+        className='mt-8'
+        checkedValues={selectedSizes}
+      />
+
+      <CheckboxFiltersGroup
+        title='Dough types'
+        items={[
+          { name: 'Regular', id: 1 },
+          { name: 'Thin', id: 2 },
+        ]}
+        onCheckboxClick={togglePizzaTypes}
+        className='mt-8'
+        checkedValues={selectedPizzaTypes}
+      />
 
       {/* Price range */}
       <div className='mt-5 border-y border-y-neutral-100 pt-6 pb-7'>
@@ -48,28 +79,39 @@ export const Filters = ({ className }: Props) => {
         <div className='flex gap-4 mb-5'>
           <Input
             type='number'
-            placeholder='0'
-            min={0}
-            max={200}
-            defaultValue={0}
+            placeholder={minMaxRange.min.toString()}
+            value={priceRange.min || minMaxRange.min}
+            onChange={e => handleInputPriceRangeChange(e, 'min')}
           />
           <Input
             type='number'
-            placeholder='200'
-            min={10}
-            max={200}
-            defaultValue={200}
+            placeholder={minMaxRange.max.toString()}
+            value={priceRange.max || minMaxRange.max}
+            onChange={e => handleInputPriceRangeChange(e, 'max')}
           />
         </div>
-        <RangeSlider min={0} max={200} step={1} />
+        <RangeSlider
+          min={minMaxRange.min}
+          max={minMaxRange.max}
+          step={1}
+          value={[
+            priceRange.min || minMaxRange.min,
+            priceRange.max || minMaxRange.max,
+          ]}
+          onValueChange={([min, max]) => setPriceRange({ min, max })}
+        />
       </div>
 
+      {/* TODO checked values on top of the list */}
       <CheckboxFiltersGroup
         title='Ingredients'
         limit={6}
-        items={defaultItems}
-        defaultItems={defaultItems}
+        items={filterIngredients}
+        defaultItems={filterIngredients}
+        onCheckboxClick={toggleIngredientId}
         className='mt-5'
+        loading={loading}
+        checkedValues={selectedIngredients}
       />
     </div>
   )

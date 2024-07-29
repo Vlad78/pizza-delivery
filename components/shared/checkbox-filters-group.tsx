@@ -1,20 +1,24 @@
 'use client'
 
-import { cn } from '@/lib/utils'
-import { FilterCheckbox, FilterCheckboxProps } from './filter-checkbox'
-import { Input } from '../ui'
 import { useState } from 'react'
+
+import { FilterCheckbox, FilterCheckboxProps } from '@/components/shared/'
+import { Input, Skeleton } from '@/components/ui'
+import { cn } from '@/lib/utils'
+
 
 type Items = FilterCheckboxProps
 
 interface Props {
-  title: string
+  title?: string
   items: Items[]
   defaultItems?: Items[]
   limit?: number
   searchInputPlaceholder?: string
-  onChange?: (items: string[]) => void
-  defaultValue?: string[]
+  loading?: boolean
+  onCheckboxClick?: (id: string) => void
+  checkedValues?: Set<string>
+  defaultValues?: string[]
   className?: string
 }
 
@@ -24,8 +28,10 @@ export const CheckboxFiltersGroup = ({
   limit = 5,
   defaultItems = items.slice(0, limit || 5),
   searchInputPlaceholder = 'Search...',
-  onChange,
-  defaultValue,
+  loading = false,
+  onCheckboxClick,
+  checkedValues: selectedIds,
+  defaultValues,
   className,
 }: Props) => {
   const [showAll, setShowAll] = useState(false)
@@ -33,7 +39,7 @@ export const CheckboxFiltersGroup = ({
 
   const list = showAll
     ? items.filter(item =>
-        item.text.toLowerCase().includes(searchValue.toLowerCase())
+        item.name.toLowerCase().includes(searchValue.toLowerCase())
       )
     : defaultItems.slice(0, limit)
 
@@ -41,9 +47,24 @@ export const CheckboxFiltersGroup = ({
     setSearchValue(e.target.value)
   }
 
+  const handleChceckboxClick = (id: number) => {
+    onCheckboxClick?.(id.toString())
+  }
+
+  if (loading)
+    return (
+      <div className={cn('', className)}>
+        <p className='font-bold mb-3'>{title}</p>
+        {new Array(limit).fill('').map((_, index) => (
+          <Skeleton className='h-6 mb-4' key={index} />
+        ))}
+        <Skeleton className='h-6 mb-4 w-28' />
+      </div>
+    )
+
   return (
     <div className={cn('', className)}>
-      <p className='font-bold mb-3'>{title}</p>
+      {title && <p className='font-bold mb-3'>{title}</p>}
 
       {showAll && (
         <div className='mb-5'>
@@ -58,18 +79,20 @@ export const CheckboxFiltersGroup = ({
 
       <div
         className={cn(
-          'flex flex-col gap-4 max-h-80 pr-2 overflow-auto scrollbar',
-          showAll && 'h-80'
+          'flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar',
+          showAll && 'h-96'
         )}
       >
-        {list.map((item, index) => (
+        {list.map(item => (
           <FilterCheckbox
-            text={item.text}
-            value={item.value}
+            name={item.name}
+            id={item.id}
             endAdornment={item.endAdornment}
-            onCheckedChange={id => console.log(id)}
-            checked={item.checked || false}
-            key={index}
+            onCheckedChange={() => {
+              handleChceckboxClick(item.id)
+            }}
+            checked={selectedIds?.has(item.id.toString())}
+            key={item.id}
           />
         ))}
       </div>
