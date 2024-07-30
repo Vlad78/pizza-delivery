@@ -1,10 +1,10 @@
 import { ArrowRight, ShoppingCart, User } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { Container, SearchInput } from '@/components/shared'
 import { Button } from '@/components/ui'
 import { cn } from '@/lib/utils'
-
 
 interface Props {
   className?: string
@@ -15,7 +15,7 @@ export const Header = ({ className }: Props) => {
     <header className={cn('border border-b', className)}>
       <Container className='flex items-center justify-between py-4 gap-16'>
         {/* Left side */}
-        <div className='flex items-center gap-4'>
+        <Link href={'/'} className='flex items-center gap-4'>
           <Image src={'/logo.svg'} alt='pizza logo' width={85} height={85} />
 
           <div>
@@ -24,7 +24,7 @@ export const Header = ({ className }: Props) => {
               Best pizza on the east
             </p>
           </div>
-        </div>
+        </Link>
         {/* Search */}
 
         <div className='flex-1 min-w-[250px]'>
