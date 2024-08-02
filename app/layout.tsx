@@ -1,12 +1,6 @@
-import type { Metadata } from 'next'
 import './globals.css'
 
 import { Nunito } from 'next/font/google'
-
-import { Header } from '@/components/shared/header'
-
-import prisma from '../prisma/prisma-client'
-
 
 const inter = Nunito({
   subsets: ['cyrillic'],
@@ -14,24 +8,14 @@ const inter = Nunito({
   weight: ['400', '500', '600', '700', '800', '900'],
 })
 
-export const metadata: Metadata = {
-  title: 'Pizza delivery | Main page',
-  description: 'Vlad R pizza delivery pet project',
-}
-
-export default function RootLayout({
+export default function GlobalLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
-        <main className=' min-h-screen'>
-          <Header />
-          {children}
-        </main>
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }

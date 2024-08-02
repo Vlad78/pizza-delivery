@@ -75,9 +75,10 @@ model ProductVariant {
     id        Int        @id @default(autoincrement())
     // name      String
     price     Float
-    size      String?
+    size      Size?
     type      String?
     imageUrl  String
+    isDefault Boolean    @default(false)
     products  Product    @relation(fields: [productId], references: [id])
     productId Int
     cartItems CartItem[]
@@ -135,4 +136,10 @@ enum OrderStatus {
 enum UserRole {
     USER
     ADMIN
+}
+
+enum Size {
+    s
+    m
+    l
 }

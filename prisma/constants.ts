@@ -13,6 +13,7 @@ const createVariant = (
   return {
     type,
     size,
+    isDefault: size === 'm' && type === 'thin',
     price: randomDecimalNumber(price, price * 1.2),
     imageUrl: `/assets/pizzas/${productName}${size && `-${size}`}${
       type && `-${type}`
