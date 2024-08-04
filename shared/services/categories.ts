@@ -1,14 +1,11 @@
-import { Category, Ingredient, Product, ProductVariant } from '@prisma/client'
+import { AxiosResponse } from 'axios'
+
+import { CategoryWithNestedFields } from '@/@types/prisma'
 
 import { instance } from './instance'
 
-export type CategoryWithNestedFields = Category & {
-  products: (Product & {
-    variants: ProductVariant[]
-    ingredients: Ingredient[]
-  })[]
-}
-
-export const getAll = async (): Promise<CategoryWithNestedFields[]> => {
-  return (await instance.get('/categories')).data
+export const getAll = (): Promise<
+  AxiosResponse<CategoryWithNestedFields[]>
+> => {
+  return instance.get('/categories')
 }

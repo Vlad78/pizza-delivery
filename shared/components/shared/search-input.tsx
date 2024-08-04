@@ -12,7 +12,6 @@ import { cn } from '@/shared/lib/utils'
 import { Api } from '@/shared/services/api-clients'
 import { Product } from '@prisma/client'
 
-
 interface Props {
   className?: string
 }
@@ -26,7 +25,8 @@ export const SearchInput = ({ className }: Props) => {
   const [, cancel] = useDebounce(
     async () => {
       try {
-        searchValue && setProducts(await Api.products.search(searchValue))
+        searchValue &&
+          setProducts((await Api.products.search(searchValue)).data)
       } catch (error) {
         // TODO toasts
         console.log(error)

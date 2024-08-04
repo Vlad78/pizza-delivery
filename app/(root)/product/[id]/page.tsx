@@ -7,7 +7,6 @@ import { ProductWithNestedFields } from '@/@types/prisma'
 import { ChooseProductForm, Container, Title } from '@/shared/components/shared'
 import { Api } from '@/shared/services/api-clients'
 
-
 interface Props {
   params: {
     id: string
@@ -20,10 +19,15 @@ export default function ProductPage({ params: { id } }: Props) {
 
   useEffect(() => {
     ;(async () => {
-      setLoading(true)
-      const res = await Api.products.getById(id)
-      setProduct(res)
-      setLoading(false)
+      try {
+        setLoading(true)
+        const res = await Api.products.getById(id)
+        setProduct(res.data)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setLoading(false)
+      }
     })()
   }, [id])
 

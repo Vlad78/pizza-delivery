@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
+import { CategoryWithNestedFields } from '@/@types/prisma'
 import {
   Container,
   Filters,
@@ -9,15 +10,25 @@ import {
   Title,
   TopBar,
 } from '@/shared/components/shared'
-
-import { Api } from '../../shared/services/api-clients'
-import { CategoryWithNestedFields } from '../../shared/services/categories'
+import { Api } from '@/shared/services/api-clients'
 
 export default function Home() {
   const [categories, setCategories] = useState<CategoryWithNestedFields[]>([])
 
   useEffect(() => {
-    Api.categories.getAll().then(res => setCategories(res))
+    // ;(async () => {
+    //   try {
+    //     const res = await Api.categories.getAll()
+    //     setCategories(res.data)
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // })()
+    // TODO state managment
+    Api.categories
+      .getAll()
+      .then(res => setCategories(res.data))
+      .catch(e => console.log(e))
   }, [])
 
   return (

@@ -4,7 +4,6 @@ import { Ingredient } from '@prisma/client'
 
 import { Api } from '../services/api-clients'
 
-
 type ReturnProps = {
   filterIngredients: Ingredient[]
   loading: boolean
@@ -15,13 +14,16 @@ export const useIngredients = (): ReturnProps => {
 
   useEffect(() => {
     setLoading(true)
-    Api.ingredients
-      .getAll()
-      .then(ingredients => {
-        setFilterIngredients(ingredients)
-      })
-      .catch(err => console.log(err)) // TODO toasts
-      .finally(() => setLoading(false))
+    ;(async () => {
+      try {
+        const res = await Api.ingredients.getAll()
+        setFilterIngredients(res.data)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setLoading(false)
+      }
+    })()
   }, [])
 
   return {

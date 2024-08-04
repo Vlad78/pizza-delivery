@@ -4,7 +4,11 @@ import { notFound } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import { ProductWithNestedFields } from '@/@types/prisma'
-import { ChooseProductModal } from '@/shared/components/shared'
+import {
+  ChooseProductModal,
+  Container,
+  Title,
+} from '@/shared/components/shared'
 import { Api } from '@/shared/services/api-clients'
 
 interface Props {
@@ -19,21 +23,26 @@ export default function ProductModalPage({ params: { id } }: Props) {
 
   useEffect(() => {
     ;(async () => {
-      setLoading(true)
-      const res = await Api.products.getById(id)
-      setProduct(res)
-      setLoading(false)
+      try {
+        setLoading(true)
+        const res = await Api.products.getById(id)
+        setProduct(res.data)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setLoading(false)
+      }
     })()
   }, [id])
 
   if (!product && !loading) return notFound()
 
-  // if (loading)
-  //   return (
-  //     <Container className='flex flex-col my-10'>
-  //       <Title text={'Loading...'} size='l' className='font-extrabold' />
-  //     </Container>
-  //   )
+  if (loading)
+    return (
+      <Container className='flex flex-col my-10'>
+        <Title text={'Loading...'} size='l' className='font-extrabold' />
+      </Container>
+    )
 
   return <ChooseProductModal product={product} isLoading={loading} />
 
