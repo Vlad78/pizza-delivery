@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 
 import { ProductWithNestedFields } from '@/@types/prisma'
 import { ChooseProductForm, Container, Title } from '@/shared/components/shared'
+import { handleApiCall } from '@/shared/lib'
 import { Api } from '@/shared/services/api-clients'
 
 interface Props {
@@ -18,17 +19,13 @@ export default function ProductPage({ params: { id } }: Props) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        setLoading(true)
-        const res = await Api.products.getById(id)
-        setProduct(res.data)
-      } catch (error) {
-        console.log(error)
-      } finally {
-        setLoading(false)
-      }
-    })()
+    handleApiCall(async () => {
+      setLoading(true)
+      const res = await Api.products.getById(id)
+      setProduct(res.data)
+    }, "Can't get the product...").finally(() => {
+      setLoading(false)
+    })
   }, [id])
 
   if (!product && !loading) return notFound()

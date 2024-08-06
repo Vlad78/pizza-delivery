@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
 import { CartItemWithNestedFields } from '@/@types/prisma'
-import { handleApiCall } from '@/shared/lib/'
+import { handleApiCallInCart } from '@/shared/lib/'
 import { Api } from '@/shared/services/api-clients'
 
 export type addItemToCartProps = Pick<
@@ -27,13 +27,13 @@ export const useCart = create<CartState>()((set, get) => ({
   totalPrice: 0,
   items: [],
   fetchCartItems: async () => {
-    handleApiCall(set, async () => {
+    handleApiCallInCart(set, async () => {
       const res = await Api.cart.get()
       set({ ...res.data })
     })
   },
   updateCartItemQuantity: async (id: number, quantity: number) => {
-    handleApiCall(set, async () => {
+    handleApiCallInCart(set, async () => {
       const { totalPrice, ...data } = (
         await Api.cart.updateItemQuantity(id, 'quantity', quantity)
       ).data
@@ -46,16 +46,20 @@ export const useCart = create<CartState>()((set, get) => ({
     })
   },
   addItemToCart: async item => {
-    handleApiCall(set, async () => {
-      const cart = (await Api.cart.addItemToCart(item)).data
-      set({
-        items: [...cart.items],
-        totalPrice: cart.totalPrice,
-      })
-    })
+    handleApiCallInCart(
+      set,
+      async () => {
+        const cart = (await Api.cart.addItemToCart(item)).data
+        set({
+          items: [...cart.items],
+          totalPrice: cart.totalPrice,
+        })
+      },
+      { addSuccessToasts: true, successText: 'Product is added to cart' }
+    )
   },
   removeCartItem: async (id: number) => {
-    handleApiCall(set, async () => {
+    handleApiCallInCart(set, async () => {
       const { totalPrice } = (await Api.cart.deleteItem(id)).data
       set({
         items: get().items.filter(item => item.id !== id),

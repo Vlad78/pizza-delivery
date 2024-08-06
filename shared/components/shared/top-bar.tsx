@@ -1,7 +1,6 @@
+import { CategoryWithNestedFields } from '@/@types/prisma'
 import { Categories, Container, SortPopup } from '@/shared/components/shared'
-import { cn } from '@/shared/lib/utils'
-import { CategoryWithNestedFields } from '@/shared/services/categories'
-
+import { cn } from '@/shared/lib/'
 
 interface Props {
   categories: CategoryWithNestedFields[]

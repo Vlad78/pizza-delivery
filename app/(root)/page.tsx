@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
 import { CategoryWithNestedFields } from '@/@types/prisma'
 import {
@@ -12,23 +12,19 @@ import {
 } from '@/shared/components/shared'
 import { Api } from '@/shared/services/api-clients'
 
+import { Skeleton } from '../../shared/components/ui'
+import { handleApiCall } from '../../shared/lib'
+
 export default function Home() {
   const [categories, setCategories] = useState<CategoryWithNestedFields[]>([])
 
   useEffect(() => {
-    // ;(async () => {
-    //   try {
-    //     const res = await Api.categories.getAll()
-    //     setCategories(res.data)
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // })()
+    handleApiCall(async () => {
+      const res = await Api.categories.getAll()
+      setCategories(res.data)
+    }, "Can't get products...")
+
     // TODO state managment
-    Api.categories
-      .getAll()
-      .then(res => setCategories(res.data))
-      .catch(e => console.log(e))
   }, [])
 
   return (
@@ -40,7 +36,9 @@ export default function Home() {
       <Container className='mt-10 pb-14'>
         <div className='flex gap-[60px]'>
           <div className='w-[250px]'>
-            <Filters />
+            <Suspense fallback={<Skeleton />}>
+              <Filters />
+            </Suspense>
           </div>
 
           <div className='flex-1'>

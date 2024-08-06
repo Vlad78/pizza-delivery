@@ -1,9 +1,8 @@
 'use client'
 
-import { cn } from '@/shared/lib/utils'
-import { CategoryWithNestedFields } from '@/shared/services/categories'
+import { CategoryWithNestedFields } from '@/@types/prisma'
+import { cn } from '@/shared/lib/'
 import { useCategoryStore } from '@/shared/store/categoryStore'
-
 
 interface Props {
   categories: CategoryWithNestedFields[]

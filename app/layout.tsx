@@ -1,6 +1,7 @@
 import './globals.css'
 
 import { Nunito } from 'next/font/google'
+import { Toaster } from 'react-hot-toast'
 
 const inter = Nunito({
   subsets: ['cyrillic'],
@@ -15,7 +16,10 @@ export default function GlobalLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Toaster />
+        {children}
+      </body>
     </html>
   )
 }

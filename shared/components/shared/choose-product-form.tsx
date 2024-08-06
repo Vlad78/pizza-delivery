@@ -139,7 +139,7 @@ export const ChooseProductForm = ({
         </div>
 
         <Button
-          disabled={loading}
+          loading={globalLoading || loading}
           onClick={handleClickAddProduct}
           className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10'
         >

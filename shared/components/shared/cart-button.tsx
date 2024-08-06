@@ -12,15 +12,19 @@ interface Props {
 }
 
 export const CartButton = ({ className }: Props) => {
-  const { items, totalPrice } = useCart()
+  const { items, totalPrice, loading } = useCart()
   return (
     <CartDrawer>
-      <Button variant='outline' className={cn(className, 'group relative')}>
+      <Button
+        variant='outline'
+        loading={loading}
+        className={cn(className, 'group relative', { 'w-[120px]': loading })}
+      >
         <p>{totalPrice} zł</p>
         <span className='h-full w-[1px] bg-gray-800 mx-2' />
         <div className='flex items-center gap-1 transition duration-300 group-hover:opacity-0'>
           <ShoppingCart size={16} className='relative' strokeWidth={2} />
-          <b>{items.length}</b>
+          <b>{items.reduce((acc, item) => acc + item.quantity, 0)}</b>
         </div>
         <ArrowRight
           size={20}
