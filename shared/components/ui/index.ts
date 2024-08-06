@@ -13,3 +13,12 @@ export {
   DropdownMenuItem,
 } from './dropdown-menu'
 export { Dialog, DialogContent } from './dialog'
+export {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTrigger,
+  SheetTitle,
+} from './sheet'

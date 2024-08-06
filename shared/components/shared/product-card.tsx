@@ -5,11 +5,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import productMock from '@/public/assets/mocks/product-mock.svg'
+import { Button } from '@/shared/components/ui'
 import { Ingredient, ProductVariant } from '@prisma/client'
 
-import { Button } from '../ui'
 import { Title } from './title'
-
 
 interface Props {
   id: string
@@ -32,7 +31,7 @@ export const ProductCard = ({
 }: Props) => {
   return (
     <div className={className}>
-      <Link href={`/product/${id}`}>
+      <Link href={`/product/${id}`} scroll={false}>
         <div className='flex justify-center items-center p-6 bg-secondary rounded-lg h-[260px]'>
           <Image
             className='object-cover'

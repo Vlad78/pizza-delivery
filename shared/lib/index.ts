@@ -1,0 +1,7 @@
+export { calcTotalProductPrice } from './calc-total-product-price'
+export { checkErrorType } from './check-error-type'
+export { getOptionsFromSelectors } from './get-options-from-selectors'
+export { getStringOfIngredients } from './get-string-of-ingredients'
+export { validateOptions } from './validate-options'
+export { handleApiCall } from './handle-api-call'
+export * from './utils'

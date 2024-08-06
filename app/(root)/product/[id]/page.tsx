@@ -44,6 +44,7 @@ export default function ProductPage({ params: { id } }: Props) {
     product && (
       <Container>
         <ChooseProductForm
+          id={product.id}
           name={product.name}
           ingredients={product.ingredients}
           variants={product.variants}
@@ -51,7 +52,6 @@ export default function ProductPage({ params: { id } }: Props) {
           description={product.description}
           loading={loading}
           price={product.price}
-          onClickAddProduct={console.log}
         />
       </Container>
     )

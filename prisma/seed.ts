@@ -3,7 +3,6 @@ import { hashSync } from 'bcrypt'
 import { categories, ingredients, pizzas, products } from './constants'
 import prisma from './prisma-client'
 
-
 type Size = 's' | 'l' | 'm'
 
 const randomDecimalNumber = (min: number, max: number) => {
@@ -83,8 +82,17 @@ async function up() {
 
   await prisma.cartItem.create({
     data: {
+      cartId: 1,
+      productVariantId: null,
+      productId: 1,
+      quantity: 1,
+    },
+  })
+
+  await prisma.cartItem.create({
+    data: {
       cartId: 2,
-      productVariantId: 2,
+      productVariantId: 12,
       quantity: 2,
       additionIngredients: {
         connect: ingredients.filter(ingredient =>

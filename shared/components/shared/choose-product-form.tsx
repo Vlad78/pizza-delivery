@@ -4,16 +4,22 @@ import { useState } from 'react'
 import { useSet } from 'react-use'
 
 import {
-    Ingredient as ProductIngredient, ProductImage, ProductOptionsSelector, Title
+  Ingredient as ProductIngredient,
+  ProductImage,
+  ProductOptionsSelector,
+  Title,
 } from '@/shared/components/shared'
 import { Button } from '@/shared/components/ui'
-import { calcTotalProductPrice } from '@/shared/lib/calc-total-pizza-price'
-import { getStringOfIngredients } from '@/shared/lib/get-string-of-ingredients'
-import { cn } from '@/shared/lib/utils'
+import {
+  calcTotalProductPrice,
+  cn,
+  getStringOfIngredients,
+} from '@/shared/lib/'
+import { addItemToCartProps, useCart } from '@/shared/store/cart'
 import { Ingredient, ProductVariant } from '@prisma/client'
 
-
 interface Props {
+  id: number
   imageUrl?: string | null
   name: string
   ingredients?: Ingredient[]
@@ -22,21 +28,24 @@ interface Props {
   loading?: boolean
   price?: number | null
   className?: string
-  onClickAddProduct: VoidFunction
+  onClickAddProduct?: (body: addItemToCartProps) => void
 }
 
 export const ChooseProductForm = ({
+  id,
   imageUrl,
   name,
   ingredients,
   variants,
   description,
-  loading,
+  loading: globalLoading,
   price,
   className,
   onClickAddProduct,
 }: Props) => {
   const isPizza = variants.some(variant => variant.type === 'thin')
+
+  const { addItemToCart, loading } = useCart()
 
   const [currentVariant, setCurrentVariant] = useState<
     ProductVariant | undefined
@@ -71,12 +80,19 @@ export const ChooseProductForm = ({
 
   const totalPrice = calcTotalProductPrice(
     selectedIngredientsPrice,
-    currentVariant,
+    currentVariant?.price,
     price
   )
 
   const handleClickAddProduct = () => {
-    onClickAddProduct()
+    addItemToCart({
+      productVariantId: currentVariant?.id,
+      productId: currentVariant ? null : id,
+      additionIngredients:
+        ingredients?.filter(ingredient =>
+          selectedIngredientsIds?.has(ingredient.id)
+        ) || [],
+    })
   }
 
   return (
@@ -88,14 +104,18 @@ export const ChooseProductForm = ({
         className='flex-1'
         pizzaSizeRimming={isPizza}
       />
+
       <div className='w-[490px] bg-gray-50 p-7'>
         <Title text={name} size='m' className='font-extrabold mb-1' />
+
         <p className='text-gray-400 mb-1'>
           {isPizza ? pizzaDescription : description}
         </p>
+
         {isPizza && (
           <p className='text-gray-400 text-sm mb-5'>{ingredientsDescription}</p>
         )}
+
         {variants.length > 0 && (
           <ProductOptionsSelector
             variants={variants}
