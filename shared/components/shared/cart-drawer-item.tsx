@@ -1,7 +1,11 @@
+'use client'
+
 import { Trash2Icon } from 'lucide-react'
+import { MouseEventHandler, useState } from 'react'
 
 import * as CartItem from '@/shared/components/shared/cart-item-details'
 import { cn } from '@/shared/lib/utils'
+
 
 interface Props {
   id: number
@@ -30,8 +34,17 @@ export const CartDrawerItem = ({
   onClickCountHandle,
   onClickRemove,
 }: Props) => {
+  const [loading, setLoading] = useState(false)
+  const handleOnClickRemove: MouseEventHandler<SVGSVGElement> = () => {
+    onClickRemove(id)
+    setLoading(true)
+  }
   return (
-    <div className={cn(className, 'flex bg-white p-5 gap-6')}>
+    <div
+      className={cn(className, 'flex bg-white p-5 gap-6', {
+        'opacity-50': loading,
+      })}
+    >
       <CartItem.Image src={imageUrl} name={'Pizza'} />
       <div className='flex-1'>
         <CartItem.Info
@@ -45,15 +58,22 @@ export const CartDrawerItem = ({
           <CartItem.CountBlock
             onClick={onClickCountHandle}
             quantity={quantity}
+            disabled={loading}
           />
 
           <div className='flex items-center gap-3'>
             <CartItem.Price value={(Number(price) * quantity).toFixed(1)} />
 
             <Trash2Icon
-              className='text-gray-400 cursor-pointer  hover:text-gray-600'
+              className={cn(
+                'text-gray-400 cursor-pointer  hover:text-gray-600',
+                {
+                  'opacity-50': loading,
+                  'cursor-not-allowed': loading,
+                }
+              )}
               size={16}
-              onClick={() => onClickRemove(id)}
+              onClick={loading ? undefined : handleOnClickRemove}
             />
           </div>
         </div>
