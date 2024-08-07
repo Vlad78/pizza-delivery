@@ -4,21 +4,14 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { PropsWithChildren, useEffect } from 'react'
 
-import {
-  Button,
-  Sheet,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/shared/components/ui'
+import { Button, Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/shared/components/ui'
 import { calcTotalProductPrice, getStringOfIngredients } from '@/shared/lib/'
 import { cn } from '@/shared/lib/utils'
 import { useCart } from '@/shared/store/cart'
 
 import { CartItemWithNestedFields } from '../../../@types/prisma'
 import { CartDrawerItem } from './cart-drawer-item'
+
 
 interface Props {
   className?: string
@@ -56,6 +49,12 @@ export const CartDrawer = ({
     const product = item.product
     const pVariant = item.productVariant
     const ingreds = item.additionIngredients
+    const description =
+      product?.description ||
+      `${pVariant?.size ? `Size: ${pVariant.size}, ` : ''}${
+        pVariant?.type ? `Type: ${pVariant.type}` : ''
+      }`.trimEnd() ||
+      ''
     const ingredientsString =
       ingreds.length !== 0 ? `+ ${getStringOfIngredients(ingreds)}` : ''
     const price = calcTotalProductPrice(
@@ -72,7 +71,7 @@ export const CartDrawer = ({
         quantity={item.quantity}
         name={pVariant?.product.name || product!.name}
         imageUrl={pVariant?.imageUrl || product!.imageUrl}
-        description={product?.description}
+        description={description}
         ingredients={ingredientsString}
         price={price}
         onClickCountHandle={type =>
