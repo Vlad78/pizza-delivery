@@ -88,7 +88,10 @@ export const CartDrawer = ({
       <SheetContent className={cn(className, 'flex flex-col  pb-0 bg-gray-50')}>
         <SheetHeader>
           <SheetTitle>
-            <span className='font-bold'>{items.length} items</span> in Cart
+            <span className='font-bold'>
+              {items.reduce((acc, item) => acc + item.quantity, 0)} items
+            </span>{' '}
+            in Cart
           </SheetTitle>
           {/* <SheetClose /> */}
         </SheetHeader>
