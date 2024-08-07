@@ -1,11 +1,10 @@
 import { Checkbox } from '@/shared/components/ui'
 import { cn } from '@/shared/lib/utils'
 
-
 export type FilterCheckboxProps = {
   name: string
   value?: string
-  id: number
+  id: number | string
   endAdornment?: React.ReactNode
   onCheckedChange?: (checked: boolean) => void
   checked?: boolean

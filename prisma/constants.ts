@@ -14,7 +14,7 @@ const createVariant = (
     type,
     size,
     isDefault: size === 'm' && type === 'thin',
-    price: randomDecimalNumber(price, price * 1.2),
+    price: randomDecimalNumber(price, price * 2),
     imageUrl: `/assets/pizzas/${productName}${size && `-${size}`}${
       type && `-${type}`
     }.png`,
@@ -150,7 +150,7 @@ export const products = [
     imageUrl:
       'https://media.dodostatic.net/image/r:292x292/11EE7970321044479C1D1085457A36EB.webp',
     categoryId: 2,
-    price: randomDecimalNumber(12, 40),
+    price: randomDecimalNumber(12, 400),
     description:
       "This is the best omelet you've ever had. It's so good, it's so good.",
   },
@@ -159,7 +159,7 @@ export const products = [
     imageUrl:
       'https://media.dodostatic.net/image/r:292x292/11EE94ECF33B0C46BA410DEC1B1DD6F8.webp',
     categoryId: 2,
-    price: randomDecimalNumber(12, 40),
+    price: randomDecimalNumber(12, 400),
     description:
       "This is the best omelet you've ever had. It's so good, it's so good.",
   },
@@ -168,7 +168,7 @@ export const products = [
     imageUrl:
       'https://media.dodostatic.net/image/r:292x292/11EE7D61B0C26A3F85D97A78FEEE00AD.webp',
     categoryId: 2,
-    price: randomDecimalNumber(12, 40),
+    price: randomDecimalNumber(12, 400),
     description: '',
   },
   {
@@ -176,28 +176,28 @@ export const products = [
     imageUrl:
       'https://media.dodostatic.net/image/r:292x292/11EE796FF0059B799A17F57A9E64C725.webp',
     categoryId: 3,
-    price: randomDecimalNumber(12, 40),
+    price: randomDecimalNumber(12, 400),
   },
   {
     name: 'Chicken nuggets',
     imageUrl:
       'https://media.dodostatic.net/image/r:292x292/11EE7D618B5C7EC29350069AE9532C6E.webp',
     categoryId: 3,
-    price: randomDecimalNumber(12, 40),
+    price: randomDecimalNumber(12, 400),
   },
   {
     name: 'Oven potatoes with gravy 🌱',
     imageUrl:
       'https://media.dodostatic.net/image/r:292x292/11EED646A9CD324C962C6BEA78124F19.webp',
     categoryId: 3,
-    price: randomDecimalNumber(12, 40),
+    price: randomDecimalNumber(12, 400),
   },
   {
     name: 'Banana milkshake',
     imageUrl:
       'https://media.dodostatic.net/image/r:292x292/11EEE20B8772A72A9B60CFB20012C185.webp',
     categoryId: 4,
-    price: randomDecimalNumber(12, 40),
+    price: randomDecimalNumber(12, 400),
     description: '',
   },
   {
@@ -205,14 +205,14 @@ export const products = [
     imageUrl:
       'https://media.dodostatic.net/image/r:292x292/11EE79702E2A22E693D96133906FB1B8.webp',
     categoryId: 4,
-    price: randomDecimalNumber(12, 40),
+    price: randomDecimalNumber(12, 400),
   },
   {
     name: 'Milkshake with Oreo cookies',
     imageUrl:
       'https://media.dodostatic.net/image/r:292x292/11EE796FA1F50F8F8111A399E4C1A1E3.webp',
     categoryId: 4,
-    price: randomDecimalNumber(12, 40),
+    price: randomDecimalNumber(12, 400),
   },
   {
     name: 'Classic milkshake 👶',

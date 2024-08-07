@@ -3,11 +3,11 @@ import { Categories, Container, SortPopup } from '@/shared/components/shared'
 import { cn } from '@/shared/lib/'
 
 interface Props {
-  categories: CategoryWithNestedFields[]
+  categories?: CategoryWithNestedFields[]
   className?: string
 }
 
-export const TopBar = ({ categories, className }: Props) => {
+export const TopBar = ({ className, categories }: Props) => {
   return (
     <div
       className={cn(

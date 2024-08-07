@@ -3,12 +3,6 @@ import { hashSync } from 'bcrypt'
 import { categories, ingredients, pizzas, products } from './constants'
 import prisma from './prisma-client'
 
-type Size = 's' | 'l' | 'm'
-
-const randomDecimalNumber = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min) * 10 + min * 10) / 10
-}
-
 async function up() {
   await prisma.user.createMany({
     data: [

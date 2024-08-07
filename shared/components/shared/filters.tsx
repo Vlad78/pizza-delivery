@@ -13,18 +13,15 @@ type Props = {
 export const Filters = ({ className }: Props) => {
   const minMaxRange = {
     min: 0,
-    max: 200,
+    max: 1000,
   }
 
   const {
     selectedSizes,
-    toggleSizes,
     selectedPizzaTypes,
-    togglePizzaTypes,
     selectedIngredients,
-    toggleIngredientId,
     priceRange,
-    setPriceRange,
+    ...filterAction
   } = useFilters()
 
   const { filterIngredients, loading } = useIngredients()
@@ -32,9 +29,9 @@ export const Filters = ({ className }: Props) => {
   useQuery({
     priceMin: priceRange.min,
     priceMax: priceRange.max,
-    sizes: Array.from(selectedSizes),
-    pizzaTypes: Array.from(selectedPizzaTypes),
-    ingredients: Array.from(selectedIngredients),
+    sizes: selectedSizes,
+    pizzaTypes: selectedPizzaTypes,
+    ingredients: selectedIngredients,
   })
 
   const handleInputPriceRangeChange = (
@@ -43,7 +40,7 @@ export const Filters = ({ className }: Props) => {
   ) => {
     const value = +e.target.value
     if (value < minMaxRange.min || value > minMaxRange.max) return
-    setPriceRange(p => ({ ...p, [type]: value }))
+    filterAction.setPriceRange(p => ({ ...p, [type]: value }))
   }
 
   return (
@@ -53,11 +50,11 @@ export const Filters = ({ className }: Props) => {
       <CheckboxFiltersGroup
         title='Sizes'
         items={[
-          { name: 'Small', id: 1 },
-          { name: 'Medium', id: 2 },
-          { name: 'Large', id: 3 },
+          { name: 'Small', id: 's' },
+          { name: 'Medium', id: 'm' },
+          { name: 'Large', id: 'l' },
         ]}
-        onCheckboxClick={toggleSizes}
+        onCheckboxClick={filterAction.toggleSizes}
         className='mt-8'
         checkedValues={selectedSizes}
       />
@@ -65,10 +62,10 @@ export const Filters = ({ className }: Props) => {
       <CheckboxFiltersGroup
         title='Dough types'
         items={[
-          { name: 'Regular', id: 1 },
-          { name: 'Thin', id: 2 },
+          { name: 'Regular', id: 'regular' },
+          { name: 'Thin', id: 'thin' },
         ]}
-        onCheckboxClick={togglePizzaTypes}
+        onCheckboxClick={filterAction.togglePizzaTypes}
         className='mt-8'
         checkedValues={selectedPizzaTypes}
       />
@@ -98,7 +95,9 @@ export const Filters = ({ className }: Props) => {
             priceRange.min || minMaxRange.min,
             priceRange.max || minMaxRange.max,
           ]}
-          onValueChange={([min, max]) => setPriceRange({ min, max })}
+          onValueChange={([min, max]) =>
+            filterAction.setPriceRange({ min, max })
+          }
         />
       </div>
 
@@ -108,7 +107,7 @@ export const Filters = ({ className }: Props) => {
         limit={6}
         items={filterIngredients}
         defaultItems={filterIngredients}
-        onCheckboxClick={toggleIngredientId}
+        onCheckboxClick={filterAction.toggleIngredientId}
         className='mt-5'
         loading={loading}
         checkedValues={selectedIngredients}

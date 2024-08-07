@@ -1,18 +1,11 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-import prisma from '@/prisma/prisma-client'
+import { findPizzas } from '@/shared/lib/back-end'
 
+export async function GET(req: NextRequest) {
+  const query = req.nextUrl.searchParams.get('searchParams') || ''
 
-export async function GET() {
-  const categories = await prisma.category.findMany({
-    include: {
-      products: {
-        include: {
-          variants: true,
-          ingredients: true,
-        },
-      },
-    },
-  })
+  const categories = await findPizzas(query)
+
   return NextResponse.json(categories)
 }

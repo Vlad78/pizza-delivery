@@ -4,19 +4,13 @@ import { useState } from 'react'
 import { useSet } from 'react-use'
 
 import {
-  Ingredient as ProductIngredient,
-  ProductImage,
-  ProductOptionsSelector,
-  Title,
+    Ingredient as ProductIngredient, ProductImage, ProductOptionsSelector, Title
 } from '@/shared/components/shared'
 import { Button } from '@/shared/components/ui'
-import {
-  calcTotalProductPrice,
-  cn,
-  getStringOfIngredients,
-} from '@/shared/lib/'
+import { calcTotalProductPrice, cn, getStringOfIngredients } from '@/shared/lib/'
 import { addItemToCartProps, useCart } from '@/shared/store/cart'
 import { Ingredient, ProductVariant } from '@prisma/client'
+
 
 interface Props {
   id: number
@@ -43,13 +37,13 @@ export const ChooseProductForm = ({
   className,
   onClickAddProduct,
 }: Props) => {
-  const isPizza = variants.some(variant => variant.type === 'thin')
+  const isPizza = variants.some(variant => variant.type === 'thin' || 'regular')
 
   const { addItemToCart, loading } = useCart()
 
   const [currentVariant, setCurrentVariant] = useState<
     ProductVariant | undefined
-  >(variants.find(variant => variant.isDefault))
+  >(variants.find(variant => variant.isDefault) || variants[0])
 
   const [selectedIngredientsIds, { toggle: toggleIngredientId }] = useSet(
     new Set<number>([])

@@ -6,7 +6,6 @@ import { FilterCheckbox, FilterCheckboxProps } from '@/shared/components/shared'
 import { Input, Skeleton } from '@/shared/components/ui'
 import { cn } from '@/shared/lib/utils'
 
-
 type Items = FilterCheckboxProps
 
 interface Props {
@@ -47,7 +46,7 @@ export const CheckboxFiltersGroup = ({
     setSearchValue(e.target.value)
   }
 
-  const handleChceckboxClick = (id: number) => {
+  const handleChceckboxClick = (id: number | string) => {
     onCheckboxClick?.(id.toString())
   }
 

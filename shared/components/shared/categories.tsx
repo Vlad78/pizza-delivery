@@ -5,12 +5,15 @@ import { cn } from '@/shared/lib/'
 import { useCategoryStore } from '@/shared/store/categoryStore'
 
 interface Props {
-  categories: CategoryWithNestedFields[]
+  categories?: CategoryWithNestedFields[]
   className?: string
 }
 
-export const Categories = ({ categories, className }: Props) => {
-  const activeCategoryId = useCategoryStore(state => state.activeId)
+export const Categories = ({ className }: Props) => {
+  const [activeCategoryId, categories] = useCategoryStore(state => [
+    state.activeId,
+    state.categories,
+  ])
 
   return (
     <div

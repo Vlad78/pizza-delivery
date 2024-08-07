@@ -23,11 +23,11 @@ export const ProductOptionsSelector = ({
   const [allSizes, allTypes] = getOptionsFromSelectors(variants)
 
   const [size, setSize] = useState<string | null>(
-    variants.find(variant => variant.isDefault)?.size || null
+    variants.find(variant => variant.isDefault)?.size || variants[0].size
   )
 
   const [type, setType] = useState<string | null>(
-    variants.find(variant => variant.isDefault)?.type || null
+    variants.find(variant => variant.isDefault)?.type || variants[0].type
   )
 
   const [possibleTypes, setPossibleTypes] = useState<Option[]>(
