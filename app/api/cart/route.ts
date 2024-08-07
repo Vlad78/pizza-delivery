@@ -2,11 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { CartItemWithNestedFields } from '@/@types/prisma'
 import prisma from '@/prisma/prisma-client'
-import {
-  checkServerErrorType,
-  getCart,
-  updateCartTotalPrice,
-} from '@/shared/lib/back-end'
+import { checkServerErrorType, getCart, updateCartTotalPrice } from '@/shared/lib/back-end'
+
 
 export async function GET(req: NextRequest) {
   try {
@@ -50,42 +47,34 @@ export async function POST(req: NextRequest) {
     const body = (await req.json()) as CartItemWithNestedFields
 
     // looking for the same item in cart
-    let findCartItem = await prisma.cartItem.findFirst({
+    let findCartItem = await prisma.cartItem.findMany({
       where: {
         cartId: cart.id,
         productVariantId: body.productVariantId,
         productId: body.productId,
-        // TODO is it possible to compare every field in both arrays?
-        // additionIngredients: {
-        //   every: {
-        //     id: {
-        //       in: reqData.additionIngredients.map(ingr => ingr.id),
-        //     },
-        //   },
-        // },
       },
       include: {
         additionIngredients: true,
       },
-    })
+    }) as unknown as CartItemWithNestedFields[]
 
-    // compare every field in additionIngredients arrays
-    const additionIngredientsEqual =
-      findCartItem?.additionIngredients.every(ingr =>
-        body.additionIngredients.some(reqIngr => ingr.id === reqIngr.id)
-      ) &&
-      body.additionIngredients.every(reqIngr =>
-        findCartItem?.additionIngredients.some(ingr => ingr.id === reqIngr.id)
-      )
-    if (!additionIngredientsEqual) {
-      findCartItem = null
+    let additionIngredientsEqualArraysItem: CartItemWithNestedFields[] = []
+
+    // compare every field in every found item of additionIngredients arrays
+    if (!findCartItem || findCartItem.length !== 0) {
+      additionIngredientsEqualArraysItem = findCartItem.filter(item => {
+        return (item.additionIngredients.every(ingr =>
+          body.additionIngredients.some(reqIngr => ingr.id === reqIngr.id)
+        ) && body.additionIngredients.every(reqIngr =>
+          item.additionIngredients.some(ingr => ingr.id === reqIngr.id)
+        ))
+      })
     }
 
-    // if we have same variant in cart - increment quantity
-    if (findCartItem) {
+    if (additionIngredientsEqualArraysItem.length > 0) {
       await prisma.cartItem.update({
         where: {
-          id: findCartItem.id,
+          id: additionIngredientsEqualArraysItem[0].id,
         },
         data: {
           quantity: {
