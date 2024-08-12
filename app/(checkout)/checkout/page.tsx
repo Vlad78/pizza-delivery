@@ -1,0 +1,84 @@
+"use client";
+
+import { FormProvider, useForm } from "react-hook-form";
+
+import { Container, Title } from "@/shared/components/shared";
+import {
+  CheckoutDelivery,
+  CheckoutItemsList,
+  CheckoutPersonData,
+} from "@/shared/components/shared/checkout";
+import { CheckoutSidebar } from "@/shared/components/shared/checkout-sidebar";
+import {
+  CheckoutSchema,
+  checkoutSchema,
+} from "@/shared/components/shared/checkout/schemas/checkout-schema";
+import { useCart } from "@/shared/store/cart";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export default function CheckoutPage() {
+  const delivery = 10;
+
+  // TODO local state that syncs with server
+  const { items, totalPrice, loading, removeCartItem, updateCartItemQuantity } =
+    useCart();
+
+  const form = useForm<CheckoutSchema>({
+    resolver: zodResolver(checkoutSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      address: "",
+      comment: "",
+    },
+  });
+
+  const handleSubmit = async (data: CheckoutSchema) => {
+    console.log(data);
+  };
+
+  const handleOnCountChange = (
+    id: number,
+    quantity: number,
+    type: "plus" | "minus"
+  ) => {
+    // TODO local state that syncs with server
+    updateCartItemQuantity(id, type === "plus" ? quantity + 1 : quantity - 1);
+  };
+
+  const handleOnClickRemove = (id: number) => {
+    // TODO local state that syncs with server
+    removeCartItem(id);
+  };
+
+  return (
+    <Container className="mt-10">
+      <Title text="Checkout" size="xl" className="font-extrabold mb-8" />
+      <FormProvider {...form}>
+        <form
+          className="flex gap-10"
+          onSubmit={form.handleSubmit(handleSubmit)}
+        >
+          {/* Left side */}
+
+          <div className="flex flex-col gap-10 flex-1 mb-20">
+            <CheckoutItemsList
+              title="1. Cart"
+              items={items}
+              loading={loading}
+              handleOnCountChange={handleOnCountChange}
+              onRemove={handleOnClickRemove}
+            />
+            <CheckoutPersonData title="2. Personal info" />
+
+            <CheckoutDelivery title="3. Delivery" />
+          </div>
+          {/* Right side */}
+          <CheckoutSidebar totalPrice={totalPrice} delivery={delivery} />
+        </form>
+      </FormProvider>
+    </Container>
+  );
+}

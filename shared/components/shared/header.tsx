@@ -6,13 +6,20 @@ import { CartButton, Container, SearchInput } from '@/shared/components/shared'
 import { Button } from '@/shared/components/ui'
 import { cn } from '@/shared/lib/'
 
+
 interface Props {
+  hasSearch: boolean
+  hasCart: boolean
   className?: string
 }
 
-export const Header = ({ className }: Props) => {
+export const Header = ({
+  className,
+  hasSearch = true,
+  hasCart = true,
+}: Props) => {
   return (
-    <header className={cn('border border-b', className)}>
+    <header className={cn('border-b', className)}>
       <Container className='flex items-center justify-between py-4 gap-16'>
         {/* Left side */}
         <Link href={'/'} className='flex items-center gap-4'>
@@ -27,18 +34,20 @@ export const Header = ({ className }: Props) => {
         </Link>
         {/* Search */}
 
-        <div className='flex-1 min-w-[250px]'>
-          <SearchInput />
-        </div>
+        {hasSearch && (
+          <div className='flex-1 min-w-[250px]'>
+            <SearchInput />
+          </div>
+        )}
 
         {/* Right side */}
+
         <div className='flex items-center gap-3'>
           <Button variant='outline' className='flex items-center gap-1'>
             <User size={16} />
             Войти
           </Button>
-
-          <CartButton />
+          {hasCart && <CartButton />}
         </div>
       </Container>
     </header>

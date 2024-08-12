@@ -1,3 +1,6 @@
+import { Ingredient } from '@prisma/client'
+
+
 /**
  * Calculates the total price of a product.
  *
@@ -7,15 +10,16 @@
  * @returns {string} - The total price rounded to one decimal place.
  */
 export const calcTotalProductPrice = (
-  selectedIngredientsPrice: number = 0,
+  ingredients: Ingredient[],
   currentVariantPrice?: number | null,
   productPrice?: number | null
 ): number => {
+  const ingredientsPrice = ingredients.reduce((acc, item) => acc + (item.price || 0), 0)
   return (
     Math.round(
       (currentVariantPrice
-        ? (currentVariantPrice || 0) + selectedIngredientsPrice
-        : (productPrice || 0) + selectedIngredientsPrice) * 10
+        ? (currentVariantPrice || 0) + ingredientsPrice
+        : (productPrice || 0) + ingredientsPrice) * 10
     ) / 10
   )
 }
