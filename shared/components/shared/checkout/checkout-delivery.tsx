@@ -1,6 +1,7 @@
+"use client";
+
 import { WhiteBlock } from "@/shared/components/shared";
-import { FormInput } from "@/shared/components/shared/form";
-import { Textarea } from "@/shared/components/ui";
+import { FormInput, FormTextarea } from "@/shared/components/shared/form";
 
 interface Props {
   title: string;
@@ -12,12 +13,7 @@ export const CheckoutDelivery = ({ className, title }: Props) => {
     <WhiteBlock title={title} className={className}>
       <div className="flex flex-col gap-5">
         <FormInput name="address" placeholder="Address" />
-        <Textarea
-          rows={5}
-          name="comment"
-          placeholder="Comment"
-          className="text-base"
-        />
+        <FormTextarea rows={5} name="comment" placeholder="Comment" />
       </div>
     </WhiteBlock>
   );
