@@ -52,7 +52,6 @@ export const useCart = create<CartState>()((set, get) => ({
       set,
       async () => {
         const cart = (await Api.cart.addItemToCart(item)).data
-        cookies().set('cartToken', JSON.stringify(cart.token))
         set({
           items: [...cart.items],
           totalPrice: cart.totalPrice,
