@@ -1,8 +1,10 @@
+import { cookies } from 'next/headers'
 import { create } from 'zustand'
 
 import { CartItemWithNestedFields } from '@/@types/prisma'
 import { handleApiCallInCart } from '@/shared/lib/'
 import { Api } from '@/shared/services/api-clients'
+
 
 export type addItemToCartProps = Pick<
   CartItemWithNestedFields,
@@ -50,6 +52,7 @@ export const useCart = create<CartState>()((set, get) => ({
       set,
       async () => {
         const cart = (await Api.cart.addItemToCart(item)).data
+        cookies().set('cartToken', JSON.stringify(cart.token))
         set({
           items: [...cart.items],
           totalPrice: cart.totalPrice,
