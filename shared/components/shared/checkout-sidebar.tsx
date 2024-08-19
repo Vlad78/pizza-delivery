@@ -1,19 +1,28 @@
-import { ArrowRight, Package, Percent, Truck } from "lucide-react";
+import { ArrowRight, Package, Percent, Truck } from 'lucide-react'
 
-import { calculatePriceWithoutVAT, calculateVAT } from "@/shared/lib";
-import { cn } from "@/shared/lib/utils";
+import { calculatePriceWithoutVAT, calculateVAT } from '@/shared/lib'
+import { cn } from '@/shared/lib/utils'
 
-import { Button } from "../ui";
-import { TotalPriceDetails } from "./total-price-details";
-import { WhiteBlock } from "./white-block";
+import { Button } from '../ui'
+import { TotalPriceDetails } from './total-price-details'
+import { WhiteBlock } from './white-block'
+
 
 interface Props {
   totalPrice: number;
   delivery: number;
+  loading?: boolean;
+  disabled?: boolean;
   className?: string;
 }
 
-export const CheckoutSidebar = ({ totalPrice, delivery, className }: Props) => {
+export const CheckoutSidebar = ({
+  totalPrice,
+  delivery,
+  loading,
+  disabled,
+  className,
+}: Props) => {
   return (
     <div className={cn("w-[450px]", className)}>
       <WhiteBlock title="4. Payment" className="p-6 sticky top-4">
@@ -57,8 +66,8 @@ export const CheckoutSidebar = ({ totalPrice, delivery, className }: Props) => {
         />
         <Button
           type="submit"
-          loading={false}
-          disabled={false}
+          loading={loading}
+          disabled={disabled}
           className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
         >
           Pay

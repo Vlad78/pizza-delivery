@@ -1,10 +1,11 @@
 import { cn } from '@/shared/lib/'
 
+
 interface Props {
-  ingredients: string | null
-  description?: string | null
-  name: string
-  className?: string
+  ingredients: string | null;
+  description?: string | null;
+  name: string;
+  className?: string;
 }
 
 export const CartItemInfo: React.FC<Props> = ({
@@ -14,16 +15,15 @@ export const CartItemInfo: React.FC<Props> = ({
   className,
 }) => {
   return (
-    <div>
-      <div className={cn('flex items-center justify-between', className)}>
-        <h2 className='text-lg font-bold flex-1 leading-6'>{name}</h2>
-      </div>
-      {description && (
-        <p className='text-xs text-gray-400 w-[90%]'>{description}</p>
+    <div
+      className={cn(
+        "flex w-full flex-col items-start justify-between",
+        className
       )}
-      {ingredients && (
-        <p className='text-xs text-gray-400 w-[90%]'>{ingredients}</p>
-      )}
+    >
+      <h2 className="text-lg font-bold flex-1 leading-6">{name}</h2>
+      {description && <p className="text-xs text-gray-400">{description}</p>}
+      {ingredients && <p className="text-xs text-gray-400">{ingredients}</p>}
     </div>
-  )
-}
+  );
+};

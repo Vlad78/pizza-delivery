@@ -2,8 +2,9 @@ import toast from 'react-hot-toast'
 
 import { checkErrorType } from './check-error-type'
 
+
 export const handleApiCall = async (
-  func: () => Promise<undefined>,
+  func: () => Promise<undefined | void>,
   message?: string
 ) => {
   try {

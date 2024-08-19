@@ -1,5 +1,6 @@
 import * as cart from './cart'
 import * as categories from './categories'
+import * as checkout from './checkout'
 import * as ingredients from './ingredients'
 import * as products from './products'
 
@@ -9,4 +10,5 @@ export const Api = {
   ingredients,
   categories,
   cart,
+  checkout
 }

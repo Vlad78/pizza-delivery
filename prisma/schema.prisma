@@ -105,8 +105,8 @@ model Order {
     userId     Int?
     token      String
     totalPrice Float
-    status     OrderStatus
-    paymentId  String
+    status     OrderStatus @default(PENDING)
+    paymentId  String?
     items      Json
     name       String
     email      String

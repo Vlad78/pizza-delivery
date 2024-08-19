@@ -1,11 +1,12 @@
 "use client";
 
-import { X } from "lucide-react";
-import React, { MouseEventHandler, useState } from "react";
+import { X } from 'lucide-react'
+import React, { MouseEventHandler, useState } from 'react'
 
-import { cn } from "@/shared/lib/utils";
+import { cn } from '@/shared/lib/utils'
 
-import * as CartItemDetails from "./cart-item-details";
+import * as CartItemDetails from './cart-item-details'
+
 
 interface Props {
   name: string;
@@ -18,6 +19,7 @@ interface Props {
   disabled?: boolean;
   onCountChange?: (type: "plus" | "minus") => void;
   onRemove?: (id: number) => void;
+  controls?: boolean;
   className?: string;
 }
 
@@ -32,6 +34,7 @@ export const CheckoutItem: React.FC<Props> = ({
   className,
   onCountChange,
   onRemove,
+  controls = true,
 }) => {
   const [loading, setLoading] = useState(false);
   const handleOnRemove: MouseEventHandler<HTMLButtonElement> = () => {
@@ -57,24 +60,31 @@ export const CheckoutItem: React.FC<Props> = ({
         />
       </div>
 
-      <CartItemDetails.Price value={price} />
+      <CartItemDetails.Price
+        value={controls ? price : `${quantity} x ${price}`}
+      />
 
-      <div className="flex items-center gap-5 ml-20">
-        <CartItemDetails.CountBlock
-          onClick={onCountChange}
-          quantity={quantity}
-          disabled={loading}
-        />
-        <button type="button" onClick={handleOnRemove}>
-          <X
-            className={cn("text-gray-400 cursor-pointer hover:text-gray-600", {
-              "opacity-50": loading,
-              "cursor-not-allowed": loading,
-            })}
-            size={20}
+      {controls && (
+        <div className="flex items-center gap-5 ml-20">
+          <CartItemDetails.CountBlock
+            onClick={onCountChange}
+            quantity={quantity}
+            disabled={loading}
           />
-        </button>
-      </div>
+          <button type="button" onClick={handleOnRemove}>
+            <X
+              className={cn(
+                "text-gray-400 cursor-pointer hover:text-gray-600",
+                {
+                  "opacity-50": loading,
+                  "cursor-not-allowed": loading,
+                }
+              )}
+              size={20}
+            />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

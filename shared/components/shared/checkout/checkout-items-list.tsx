@@ -1,22 +1,20 @@
-import { CartItemWithNestedFields } from "@/@types/prisma";
-import { CheckoutItem, WhiteBlock } from "@/shared/components/shared/";
-import {
-  calcTotalProductPrice,
-  getItemDescription,
-  getStringOfIngredients,
-} from "@/shared/lib";
+import { CartItemWithNestedFields } from '@/@types/prisma'
+import { CheckoutItem, WhiteBlock } from '@/shared/components/shared/'
+import { calcTotalProductPrice, getItemDescription, getStringOfIngredients } from '@/shared/lib'
+
 
 interface Props {
   title: string;
   loading?: boolean;
   items: CartItemWithNestedFields[];
   className?: string;
-  handleOnCountChange: (
+  handleOnCountChange?: (
     id: number,
     quantity: number,
     type: "plus" | "minus"
   ) => void;
-  onRemove: (id: number) => void;
+  onRemove?: (id: number) => void;
+  controls?: boolean;
 }
 
 export const CheckoutItemsList = ({
@@ -26,6 +24,7 @@ export const CheckoutItemsList = ({
   loading,
   handleOnCountChange,
   onRemove,
+  controls = true,
 }: Props) => {
   return (
     <WhiteBlock title={title} className={className}>
@@ -50,9 +49,10 @@ export const CheckoutItemsList = ({
               item.product?.price
             )}
             onCountChange={(type) =>
-              handleOnCountChange(item.id, item.quantity, type)
+              handleOnCountChange?.(item.id, item.quantity, type)
             }
             onRemove={onRemove}
+            controls={controls}
           />
         ))}
       </div>
