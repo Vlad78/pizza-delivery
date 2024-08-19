@@ -1,25 +1,26 @@
 import './globals.css'
 
 import { Nunito } from 'next/font/google'
-import { Toaster } from 'react-hot-toast'
+
+import { Providers } from '@/shared/components/shared'
+
 
 const inter = Nunito({
-  subsets: ['cyrillic'],
-  variable: '--font-nunito',
-  weight: ['400', '500', '600', '700', '800', '900'],
-})
+  subsets: ["cyrillic"],
+  variable: "--font-nunito",
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
 
 export default function GlobalLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <body className={inter.className}>
-        <Toaster />
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
-  )
+  );
 }
