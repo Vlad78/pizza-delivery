@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import prisma from '@/prisma/prisma-client'
-import {
-  checkServerErrorType,
-  updateCartTotalPrice,
-} from '@/shared/lib/back-end'
+import { checkServerErrorType, updateCartTotalPrice } from '@/shared/lib/back-end'
+
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+
     const id = Number(params.id)
     const body = await req.json()
     // TODO remove hardcode

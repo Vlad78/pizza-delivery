@@ -19,6 +19,7 @@ model User {
     orders            Order[]
     verificationToken VerificationToken?
     verified          DateTime?
+    // Change to array of providers 'cause we can have multiple providers
     provider          String?
     providerId        String?
 

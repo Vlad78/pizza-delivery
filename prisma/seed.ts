@@ -3,6 +3,7 @@ import { hashSync } from 'bcrypt'
 import { categories, ingredients, pizzas, products } from './constants'
 import prisma from './prisma-client'
 
+
 async function up() {
   await prisma.user.createMany({
     data: [
@@ -10,14 +11,14 @@ async function up() {
         name: 'John Test',
         email: 'j@j.com',
         role: 'USER',
-        password: hashSync('123', 10),
+        password: hashSync('12345678', 10),
         verified: new Date(),
       },
       {
         name: 'Jane Test',
         email: 'ja@j.com',
         role: 'ADMIN',
-        password: hashSync('123', 10),
+        password: hashSync('12345678', 10),
         verified: new Date(),
       },
     ],

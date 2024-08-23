@@ -5,6 +5,7 @@ const nextConfig = {
       'images.unsplash.com',
       'media.dodostatic.net',
       'cdn.dodostatic.net',
+      'avatars.githubusercontent.com'
     ],
   },
 }

@@ -1,21 +1,17 @@
-import { useFormContext } from "react-hook-form";
+import { useFormContext } from 'react-hook-form'
 
-import {
-  ClearButton,
-  InputErrorText,
-  RequiredSymbol,
-} from "@/shared/components/shared";
-import { CheckoutSchema } from "@/shared/components/shared/checkout/schemas/checkout-schema";
-import { Input } from "@/shared/components/ui";
-import { cn } from "@/shared/lib/utils";
+import { ClearButton, InputErrorText, RequiredSymbol } from '@/shared/components/shared'
+import { Input } from '@/shared/components/ui'
+import { cn } from '@/shared/lib/utils'
+
 
 type Props = {
-  name: keyof CheckoutSchema;
-  label?: string;
-  required?: boolean;
-  errorText?: string;
-  className?: string;
-} & React.ComponentProps<"input">;
+  name: string
+  label?: string
+  required?: boolean
+  errorText?: string
+  className?: string
+} & React.ComponentProps<'input'>
 
 export const FormInput = ({
   name,
@@ -29,24 +25,24 @@ export const FormInput = ({
     register,
     formState: { errors },
     setValue,
-  } = useFormContext();
+  } = useFormContext()
 
   const onClickClear = () => {
-    setValue(name, "");
-  };
+    setValue(name, '')
+  }
 
   return (
-    <div className={cn(className, "text-base")}>
+    <div className={cn(className, 'text-base')}>
       {label && (
-        <label htmlFor={name} className="font-medium mb-2 ">
-          {label} {required && <RequiredSymbol />}{" "}
+        <label htmlFor={name} className='font-medium mb-2 '>
+          {label} {required && <RequiredSymbol />}{' '}
         </label>
       )}
 
-      <div className="relative">
+      <div className='relative'>
         <Input
           required={required}
-          className="h-12 text-md"
+          className='h-12 text-md'
           {...props}
           {...register(name)}
         />
@@ -56,8 +52,8 @@ export const FormInput = ({
 
       <InputErrorText
         text={errorText || (errors?.[name]?.message as string)}
-        className="mt-2"
+        className='mt-2'
       />
     </div>
-  );
-};
+  )
+}
