@@ -5,3 +5,4 @@ export { checkServerErrorType } from '@/shared/lib/back-end/check-server-error-t
 export * from './find-product'
 export type * from './find-product'
 export { sendEmail } from './send-email'
+export { getUserSession } from './get-user-session'

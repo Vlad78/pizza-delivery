@@ -1,3 +1,4 @@
+import * as auth from './auth'
 import * as cart from './cart'
 import * as categories from './categories'
 import * as checkout from './checkout'
@@ -10,5 +11,6 @@ export const Api = {
   ingredients,
   categories,
   cart,
-  checkout
+  checkout,
+  auth,
 }

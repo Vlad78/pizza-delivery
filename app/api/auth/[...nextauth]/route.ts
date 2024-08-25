@@ -2,6 +2,7 @@ import { compareSync, hashSync } from 'bcrypt'
 import NextAuth, { AuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GitHubProvider from 'next-auth/providers/github'
+import GoogleProvider from 'next-auth/providers/google'
 
 import prisma from '@/prisma/prisma-client'
 import { UserRole } from '@prisma/client'
@@ -13,12 +14,24 @@ export const authOptions: AuthOptions = {
       clientId: process.env.GITHUB_ID || '',
       clientSecret: process.env.GITHUB_SECRET || '',
       profile(profile) {
-        console.log(profile)
         return {
           id: profile.id,
           name: profile.name || profile.login,
           email: profile.email,
           image: profile.avatar_url,
+          role: 'USER' as UserRole,
+        }
+      },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_SECRET_KEY || '',
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
           role: 'USER' as UserRole,
         }
       },

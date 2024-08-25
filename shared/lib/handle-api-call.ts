@@ -12,6 +12,6 @@ export const handleApiCall = async (
   } catch (error) {
     const errorText = checkErrorType(error)
     console.error(message, errorText)
-    toast.error('Oh, no! ' + message || errorText + ' 😞')
+    toast.error('Oh, no! ' + (message || errorText) + ' 😞')
   }
 }

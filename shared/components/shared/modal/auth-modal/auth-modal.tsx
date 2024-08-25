@@ -6,6 +6,7 @@ import { Button, Dialog, DialogContent } from '@/shared/components/ui'
 import { cn } from '@/shared/lib/utils'
 
 import { LoginForm } from './forms/login-form'
+import { RegisterForm } from './forms/register-form'
 
 
 interface Props {
@@ -45,7 +46,7 @@ export const AuthModal = ({ open, onClose, className }: Props) => {
         {type === 'login' ? (
           <LoginForm onClose={handleClose} />
         ) : (
-          <h1>Register</h1>
+          <RegisterForm />
         )}
 
         <hr />
@@ -88,7 +89,7 @@ export const AuthModal = ({ open, onClose, className }: Props) => {
           type='button'
           className='mt-4 outline outline-1 outline-offset-2 outline-primary'
         >
-          Registration
+          {type === 'login' ? 'Register' : 'Login'}
         </Button>
       </DialogContent>
     </Dialog>
