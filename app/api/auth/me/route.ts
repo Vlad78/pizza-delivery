@@ -4,6 +4,8 @@ import prisma from '@/prisma/prisma-client'
 import { getUserSession } from '@/shared/lib/back-end'
 
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const session = await getUserSession()
