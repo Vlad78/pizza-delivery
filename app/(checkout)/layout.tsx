@@ -23,8 +23,8 @@ export default function CheckoutLayout({
             hasCart={false}
             className='border-b-gray-200'
           />
+          {children}
         </Suspense>
-        {children}
       </Container>
     </main>
   )

@@ -1,9 +1,8 @@
 import { Suspense } from 'react'
 
 import { Container, Filters, Stories, Title, TopBar } from '@/shared/components/shared'
+import { Products } from '@/shared/components/shared/products'
 import { Skeleton } from '@/shared/components/ui'
-
-import { Products } from '../../shared/components/shared/products'
 
 
 export default function Home() {

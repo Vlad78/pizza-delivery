@@ -23,7 +23,6 @@ export default function CheckoutPage() {
   const [submitting, setSubmitting] = useState(false)
   const { items, totalPrice, loading, removeCartItem, updateCartItemQuantity } =
     useCart()
-  const { data: session } = useSession()
 
   const form = useForm<CheckoutSchema>({
     resolver: zodResolver(checkoutSchema),

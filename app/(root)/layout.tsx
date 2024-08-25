@@ -21,8 +21,8 @@ export default function RootLayout({
     <main className=' min-h-screen'>
       <Suspense>
         <Header />
+        {children}
       </Suspense>
-      {children}
       {modal}
     </main>
   )

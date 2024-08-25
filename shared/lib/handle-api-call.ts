@@ -3,10 +3,10 @@ import toast from 'react-hot-toast'
 import { checkErrorType } from './check-error-type'
 
 
-export const handleApiCall = async (
+export async function handleApiCall(
   func: () => Promise<undefined | void>,
   message?: string
-) => {
+) {
   try {
     await func()
   } catch (error) {
