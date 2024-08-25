@@ -1,9 +1,10 @@
 import { Suspense } from 'react'
 
-import { Container, Filters, Title, TopBar } from '@/shared/components/shared'
+import { Container, Filters, Stories, Title, TopBar } from '@/shared/components/shared'
 import { Skeleton } from '@/shared/components/ui'
 
 import { Products } from '../../shared/components/shared/products'
+
 
 export default function Home() {
   return (
@@ -12,6 +13,9 @@ export default function Home() {
         <Title text='All pizzas' size='l' className='font-extrabold' />
       </Container>
       <TopBar />
+
+      <Stories />
+
       <Container className='mt-10 pb-14'>
         <div className='flex gap-[60px]'>
           <div className='w-[250px]'>

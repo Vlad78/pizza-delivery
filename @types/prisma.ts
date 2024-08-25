@@ -1,11 +1,5 @@
-import {
-  Cart,
-  CartItem,
-  Category,
-  Ingredient,
-  Product,
-  ProductVariant,
-} from '@prisma/client'
+import { Cart, CartItem, Category, Ingredient, Product, ProductVariant, Story, StoryItem } from '@prisma/client'
+
 
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never }
 
@@ -44,4 +38,8 @@ export type CartItemWithNestedFields = Omit<
 
 export type CartWithNestedFields = Cart & {
   items: CartItemWithNestedFields[]
+}
+
+export type StoryWithNestedFields = Story & {
+  items: StoryItem[]
 }

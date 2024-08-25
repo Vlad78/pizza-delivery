@@ -7,6 +7,8 @@ const nextConfig = {
       'cdn.dodostatic.net',
       'avatars.githubusercontent.com',
       'lh3.googleusercontent.com',
+      'cdn.sanity.io',
+      '800degreespizza.com',
     ],
   },
 }

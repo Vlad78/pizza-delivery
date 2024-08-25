@@ -4,6 +4,7 @@ import * as categories from './categories'
 import * as checkout from './checkout'
 import * as ingredients from './ingredients'
 import * as products from './products'
+import * as stories from './stories'
 
 
 export const Api = {
@@ -13,4 +14,5 @@ export const Api = {
   cart,
   checkout,
   auth,
+  stories,
 }
