@@ -1,10 +1,12 @@
 'use client'
 
+import { Loader } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import { ProductWithNestedFields } from '@/@types/prisma'
 import { ChooseProductForm, Title } from '@/shared/components/shared'
-import { Dialog, DialogContent } from '@/shared/components/ui'
+import { Dialog, DialogContent, Skeleton } from '@/shared/components/ui'
+
 
 type Props = {
   product?: ProductWithNestedFields | null
@@ -18,7 +20,9 @@ export const ChooseProductModal = ({ product, isLoading = false }: Props) => {
     <Dialog open={!!product || isLoading} onOpenChange={() => router.back()}>
       <DialogContent className='p-0 w-[1060px] min-h-[550px] bg-white overflow-hidden'>
         {isLoading || !product ? (
-          <Title text={'Loading...'} size='l' className='m-20' />
+          <div className='flex justify-center items-center'>
+            <Loader className='w-10 h-10 animate-spin text-gray-500' />
+          </div>
         ) : (
           <ChooseProductForm
             id={product.id}
