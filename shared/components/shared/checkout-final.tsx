@@ -3,12 +3,11 @@
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+import { WhiteBlock } from '@/shared/components/shared'
+import { handleApiCall } from '@/shared/lib'
 import { cn } from '@/shared/lib/utils'
+import { Api } from '@/shared/services/api-clients'
 import { Order } from '@prisma/client'
-
-import { handleApiCall } from '../../lib'
-import { Api } from '../../services/api-clients'
-import { WhiteBlock } from './white-block'
 
 
 interface Props {
@@ -20,7 +19,6 @@ const ERROR_MESSAGE =
   'Error with payment. Please check your email and connect our support'
 
 export const CheckoutFinal = ({ className, setLoading }: Props) => {
-  //   const [loading, setLoading] = useState(true)
   const [order, setOrder] = useState<Order | null>(null)
   const searchParams = useSearchParams()
   const orderId = searchParams.get('order_id')
@@ -28,18 +26,21 @@ export const CheckoutFinal = ({ className, setLoading }: Props) => {
 
   useEffect(() => {
     if (orderId !== null && paymentId !== null) {
-      handleApiCall(async () => {
-        const res = await Api.checkout
-          .updateOrder({
-            orderId,
-            paymentId,
-          })
-          .finally(() => {
-            setLoading(false)
-          })
+      handleApiCall(
+        async () => {
+          const res = await Api.checkout
+            .updateOrder({
+              orderId,
+              paymentId,
+            })
+            .finally(() => {
+              setLoading(false)
+            })
 
-        setOrder(res.data)
-      }, "Couldn't find the order...")
+          setOrder(res.data)
+        },
+        { errorMessage: "Couldn't find the order..." }
+      )
     }
   }, [orderId, paymentId])
 

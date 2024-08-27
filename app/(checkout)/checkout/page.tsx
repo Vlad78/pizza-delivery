@@ -1,20 +1,18 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
 import { useDebounce } from 'react-use'
 
+import { createOrder } from '@/app/actions'
 import { Container, Title } from '@/shared/components/shared'
 import { CheckoutDelivery, CheckoutItemsList, CheckoutPersonData } from '@/shared/components/shared/checkout'
 import { CheckoutSidebar } from '@/shared/components/shared/checkout-sidebar'
 import { CheckoutSchema, checkoutSchema } from '@/shared/components/shared/checkout/schemas/checkout-schema'
+import { handleApiCall } from '@/shared/lib'
+import { Api } from '@/shared/services/api-clients'
 import { useCart } from '@/shared/store/cart'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-import { Api } from '../../../shared/services/api-clients'
-import { createOrder } from '../../actions'
 
 
 export default function CheckoutPage() {
@@ -38,6 +36,8 @@ export default function CheckoutPage() {
 
   useDebounce(async () => {
     const { data } = await Api.auth.me()
+    if (!data) return
+
     const [firstName, lastName] = data.name.split(' ')
 
     form.setValue('firstName', firstName)
@@ -60,29 +60,16 @@ export default function CheckoutPage() {
   }
 
   const handleSubmit = async (data: CheckoutSchema) => {
-    try {
+    handleApiCall(async () => {
       setSubmitting(true)
       const url = await createOrder(data)
-
-      if (url === 'Something went wrong. Please try again later.') {
-        toast.error('Something went wrong. Please try again later.', {
-          icon: '❌',
-        })
-        location.reload()
+      if (!url) {
+        throw new Error('Session is not active')
       }
-
-      if (url) {
-        toast.success('Order created. Redirecting to payment...', {
-          icon: '✅',
-        })
-        location.href = url
-      }
-    } catch (error) {
-      console.log(error)
-      toast.error('Something went wrong', { icon: '❌' })
-    } finally {
+      location.href = url
+    }).finally(() => {
       setSubmitting(false)
-    }
+    })
   }
 
   return (

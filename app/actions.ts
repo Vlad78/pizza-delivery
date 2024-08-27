@@ -9,6 +9,8 @@ import { CheckoutSchema } from '@/shared/components/shared/checkout/schemas/chec
 import { getUserSession, sendEmail } from '@/shared/lib/back-end'
 import { OrderStatus, Prisma } from '@prisma/client'
 
+import { isProdMode, isVercel } from '../shared/lib'
+
 
 export async function createOrder(
   data: CheckoutSchema
@@ -79,7 +81,13 @@ export async function createOrder(
       },
     })
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {})
+    const baseUrl = isVercel()
+      ? 'https://pizza-delivery-tan.vercel.app'
+      : 'http://localhost:3000'
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+      typescript: true,
+    })
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -95,11 +103,13 @@ export async function createOrder(
       ],
       mode: 'payment',
       success_url:
-        'http://localhost:3000/success?order_id=' +
+        baseUrl +
+        '/success?order_id=' +
         order.id +
         '&payment_id={CHECKOUT_SESSION_ID}',
       cancel_url:
-        'http://localhost:3000/cancel?order_id=' +
+        baseUrl +
+        '/reject?order_id=' +
         order.id +
         '&payment_id={CHECKOUT_SESSION_ID}',
       customer_email: data.email,
@@ -111,8 +121,7 @@ export async function createOrder(
     return session.url
   } catch (error) {
     console.log(error)
-    // TODO should throw error
-    return 'Something went wrong. Please try again later.'
+    throw error
   }
 }
 

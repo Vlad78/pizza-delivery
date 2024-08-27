@@ -28,17 +28,20 @@ export const LoginForm = ({ className, onClose }: Props) => {
   const { handleSubmit, formState } = form
 
   const handleSubmitForm = async (data: FormLogin) => {
-    handleApiCall(async () => {
-      const res = await signIn('credentials', {
-        ...data,
-        redirect: false,
-      })
-      if (res?.error) {
-        throw Error(res.error)
-      }
+    handleApiCall(
+      async () => {
+        const res = await signIn('credentials', {
+          ...data,
+          redirect: false,
+        })
+        if (res?.error) {
+          throw Error(res.error)
+        }
 
-      onClose?.()
-    }, 'Login failed')
+        onClose?.()
+      },
+      { errorMessage: 'Login failed' }
+    )
   }
 
   return (

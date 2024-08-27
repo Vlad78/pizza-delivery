@@ -8,6 +8,7 @@ import { ChooseProductModal } from '@/shared/components/shared'
 import { handleApiCall } from '@/shared/lib'
 import { Api } from '@/shared/services/api-clients'
 
+
 interface Props {
   params: {
     id: string
@@ -19,11 +20,14 @@ export default function ProductModalPage({ params: { id } }: Props) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    handleApiCall(async () => {
-      setLoading(true)
-      const res = await Api.products.getById(id)
-      setProduct(res.data)
-    }, "Can't get the product...").finally(() => {
+    handleApiCall(
+      async () => {
+        setLoading(true)
+        const res = await Api.products.getById(id)
+        setProduct(res.data)
+      },
+      { errorMessage: "Can't get the product..." }
+    ).finally(() => {
       setLoading(false)
     })
   }, [id])

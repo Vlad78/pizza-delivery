@@ -3,15 +3,23 @@ import toast from 'react-hot-toast'
 import { checkErrorType } from './check-error-type'
 
 
+type Options = {
+  errorMessage?: string
+}
+
 export async function handleApiCall(
   func: () => Promise<undefined | void>,
-  message?: string
+  options?: Options
 ) {
   try {
     await func()
   } catch (error) {
     const errorText = checkErrorType(error)
-    console.error(message, errorText)
-    toast.error('Oh, no! ' + (message || errorText) + ' 😞')
+    console.error(options?.errorMessage, errorText)
+    toast.error(
+      'Oh, no! ' +
+        (errorText || options?.errorMessage || 'Something went wrong') +
+        ' 😞'
+    )
   }
 }

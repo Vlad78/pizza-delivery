@@ -11,9 +11,6 @@ const nextConfig = {
       '800degreespizza.com',
     ],
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
 }
 
 export default nextConfig

@@ -10,6 +10,7 @@ import { useCategoryStore } from '@/shared/store/categoryStore'
 
 import { ProductListGroup } from './product-list-group'
 
+
 interface Props {
   className?: string
 }
@@ -24,10 +25,13 @@ export const Products = ({ className }: Props) => {
 
   useDebounce(
     () => {
-      handleApiCall(async () => {
-        const res = await Api.categories.getAll(searchParams.toString())
-        setCategories(res.data)
-      }, "Can't get products...")
+      handleApiCall(
+        async () => {
+          const res = await Api.categories.getAll(searchParams.toString())
+          setCategories(res.data)
+        },
+        { errorMessage: "Can't get products..." }
+      )
     },
     200,
     [searchParams, setCategories]

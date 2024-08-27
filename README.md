@@ -2,4 +2,4 @@ Next pizza-delivery application
 
 This is my pet project
 
-URL:
+URL: [text](https://pizza-delivery-tan.vercel.app/)
