@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { useDebounce } from 'react-use'
 
 import { createOrder } from '@/app/actions'
 import { Container, Title } from '@/shared/components/shared'
@@ -19,8 +19,15 @@ export default function CheckoutPage() {
   const delivery = 10
   // TODO local state that syncs with server
   const [submitting, setSubmitting] = useState(false)
-  const { items, totalPrice, loading, removeCartItem, updateCartItemQuantity } =
-    useCart()
+  const {
+    items,
+    totalPrice,
+    loading,
+    removeCartItem,
+    updateCartItemQuantity,
+    fetchCartItems,
+  } = useCart()
+  const { data: session } = useSession()
 
   const form = useForm<CheckoutSchema>({
     resolver: zodResolver(checkoutSchema),
@@ -34,16 +41,19 @@ export default function CheckoutPage() {
     },
   })
 
-  useDebounce(async () => {
-    const { data } = await Api.auth.me()
-    if (!data) return
+  useEffect(() => {
+    fetchCartItems()
 
-    const [firstName, lastName] = data.name.split(' ')
+    if (session)
+      handleApiCall(async () => {
+        const { data } = await Api.auth.me()
+        const [firstName, lastName] = data.name.split(' ')
 
-    form.setValue('firstName', firstName)
-    form.setValue('lastName', lastName)
-    form.setValue('email', data.email)
-  }, 0)
+        form.setValue('firstName', firstName)
+        form.setValue('lastName', lastName)
+        form.setValue('email', data.email)
+      })
+  }, [session])
 
   const handleOnCountChange = (
     id: number,
@@ -83,7 +93,6 @@ export default function CheckoutPage() {
           {/* TODO skeletons */}
 
           {/* Left side */}
-
           <div className='flex flex-col gap-10 flex-1 mb-20'>
             <CheckoutItemsList
               title='1. Cart'
@@ -96,6 +105,7 @@ export default function CheckoutPage() {
 
             <CheckoutDelivery title='3. Delivery' />
           </div>
+
           {/* Right side */}
           <CheckoutSidebar
             totalPrice={totalPrice}
