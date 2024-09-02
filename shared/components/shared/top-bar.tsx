@@ -1,5 +1,9 @@
 import { CategoryWithNestedFields } from '@/@types/prisma'
-import { Categories, Container, SortPopup } from '@/shared/components/shared'
+import {
+  Categories,
+  Container,
+  TechnologiesUsed,
+} from '@/shared/components/shared'
 import { cn } from '@/shared/lib/'
 
 interface Props {
@@ -17,7 +21,7 @@ export const TopBar = ({ className, categories }: Props) => {
     >
       <Container className='flex items-center justify-between'>
         <Categories categories={categories} />
-        <SortPopup />
+        <TechnologiesUsed />
       </Container>
     </div>
   )
